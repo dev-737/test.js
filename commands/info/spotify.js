@@ -5,14 +5,21 @@ module.exports = {
         name: "spotify", 
         category: "info", 
     run: async ({bot, message, args}) => {
-        let user = message.mentions.users.first() || message.author;
+        let user = message.mentions.users.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === args[0]) || message.author; // message.mentions.users.first() || message.author;
         user=await message.guild.members.fetch(user)
         
-	// ...
+	
 	    
+        if (!user.presence?.status) {
+            message.reply({ content: "<a:sweat:956462838606606346> User is Offline. Failed to fetch Spotify Status!", allowedMentions: { repliedUser: false } })
+            return
+        }
 
         let presence = user.presence.activities
         let spotify  = ""
+
+        
+        console.log(user.presence.activities)
        
         const start = performance.now();
         presence.forEach(function (item, index) {
@@ -23,17 +30,20 @@ module.exports = {
         });
         const duration = performance.now() - start;
         console.log(duration)
-           // console.log(spotify);
+      
     
            if (!spotify) {
-            return message.channel.send('**This user isn\'t listening to Spotify!**'); }
+            return message.reply({content: '**This user isn\'t listening to Spotify!**', allowedMentions: { repliedUser: false } } ); }
+           
+
+            
            
             let trackIMG = `https://i.scdn.co/image/${spotify.assets.largeImage.slice(8)}`;
             let trackURL = `https://open.spotify.com/track/${spotify.syncId}`;
             let trackName = spotify.details;
             let trackAuthor = spotify.state;
             let trackAlbum = spotify.assets.largeText;
-            //console.log(spotify.assets.largeText)
+       
             
             const embed = new MessageEmbed()
                 .setAuthor({name: 'Spotify Track Info', iconURL: 'https://cdn.discordapp.com/emojis/956382916332634142.webp'})
@@ -46,7 +56,7 @@ module.exports = {
                 .setFooter({text: message.member.displayName, iconURL: message.author.displayAvatarURL()})
                 .setTimestamp()
 
-            message.channel.send({ embeds: [embed] });
+            message.reply({ embeds: [embed], allowedMentions: { repliedUser: false }});
             
             
             
