@@ -1,11 +1,10 @@
 module.exports = {
-    name: "ping", 
-    category: "info", 
-    permissions: [], 
-    devOnly: true, 
-    run: async ({bot, message, args}) => {
+    name: "ping",
+    category: "info",
+    permissions: [],
+    devOnly: false,
+    run: async ({client, message, args}) => {
+        console.log(client)
         message.reply(`Pong! Latency is \`${message.createdTimestamp - Date.now()}ms\``)
     }
-
-
 }

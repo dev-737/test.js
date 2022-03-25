@@ -10,6 +10,7 @@ const client = new Discord.Client({
         "GUILD_MESSAGES",
         "GUILD_MEMBERS",
         "GUILD_PRESENCES"
+        
     ]
 
 })
@@ -25,18 +26,21 @@ client.commands = new Discord.Collection()
 client.events = new Discord.Collection()
 client.slashcommands = new Discord.Collection()
 
+
+
 client.loadEvents = (bot, reload) => require("./handlers/events")(bot, reload)
 client.loadCommands = (bot, reload) => require("./handlers/commands")(bot, reload)
 client.loadSlashCommands = (bot, reload) => require("./handlers/slashcommands")(bot, reload)
 
+
 client.loadEvents(bot, false)
 client.loadCommands(bot, false)
 client.loadSlashCommands(bot, false)
-
-
 module.exports = bot
 
 
+// let person = client.members.cache.get('User ID');
+// console.log(person);
 
 
 
@@ -59,6 +63,12 @@ client.on("guildMemberAdd", async (member) => {
 
 
 
+// let a=['a', 'b', 'c']
+// a.every(function(element, index) {
+//     console.log(element)
+//     if () return false
+//     else return true
+//   })
 
 
 
