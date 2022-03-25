@@ -12,7 +12,7 @@ const client = new Discord.Client({
         "GUILD_PRESENCES"
         
     ]
-//s
+
 })
 
 let bot = {
